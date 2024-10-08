@@ -7,12 +7,13 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { useForm } from "react-hook-form";
-import { fetchAuth, fetchRegister } from "../../redux/slices/auth"
+import { selectIsAuth, fetchRegister } from "../../redux/slices/auth"
 import styles from "./Login.module.scss";
 
 export const Registration = () => {
   const dispatch = useDispatch();
-  //const isAuth = useSelector(fetchAuth());
+  const isAuth = useSelector(selectIsAuth);
+
 
   const {
     register,
@@ -21,26 +22,35 @@ export const Registration = () => {
     formState: { errors, isValid }
   } = useForm({
     defaultValues: {
-      fullName: "Susana One",
-      email: "test10@gmail.com",
-      password: "1234"
+      fullName: "John Doe",
+      email: "test@gmail.com",
+      password: "12345",
+      avatarUrl: ""
     },
     mode: 'onChange'
   });
 
   const onSubmit = async (values) => {
+    const uriName = encodeURI(values.fullName)
+
+    values.avatarUrl = `https://ui-avatars.com/api/?background=random&name=${uriName}`;
+
     const data = await dispatch(fetchRegister(values));
+    if (data.error != undefined) {
+      alert(data.error.message);
+      return
+    }
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);
     } else {
       alert('Registration problem occured. Please try once again.')
     }
+  }
 
-  };
+  if(isAuth) {
+    return <Navigate to='/' />
+  }
 
-  /*if(isAuth) {
-    return <Navigate to="/"/>
-  }*/
 
   return (
     <Paper classes={{ root: styles.root }}>
@@ -51,6 +61,7 @@ export const Registration = () => {
         <Avatar sx={{ width: 100, height: 100 }} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} >
+
         <TextField
           className={styles.field}
           label="Full Name"
@@ -69,6 +80,7 @@ export const Registration = () => {
         />
         <TextField
           className={styles.field}
+          type='password'
           label="Password"
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}

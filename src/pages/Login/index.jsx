@@ -30,10 +30,14 @@ export const Login = () => {
 
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
+    if (data.error != undefined) {
+      alert(data.error.message);
+      return
+    }
     if('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);
     } else {
-      alert('Authorisation problem occured. Please try once again.')
+      alert('Authorization problem occured. Please try once again.')
     }
 
   };
@@ -60,6 +64,7 @@ export const Login = () => {
         />
         <TextField
           className={styles.field}
+          type='password'
           label="Password"
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}

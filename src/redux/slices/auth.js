@@ -4,27 +4,51 @@ import axios from "../../axios";
 
 export const fetchAuth = createAsyncThunk('/auth/fetchAuth',
     async (params) => {
-        const { data } = await axios.post('/auth/login', params);
-        return data;
+        try {
+            const { data } = await axios.post('/auth/login', params);
+            return data;
+        } catch (err) {
+            const loginError = {
+                name: "Login error",
+                message: err.response.data.message
+            };
+            throw loginError;
+        }
     });
 
 export const fetchRegister = createAsyncThunk('/auth/fetchRegister',
     async (params) => {
-        const { data } = await axios.post('/auth/register', params);
-        return data;
+        try {
+            const { data } = await axios.post('/auth/register', params);
+            return data;
+        } catch (err) {
+            const customError = {
+                name: "Register error",
+                message: err.response.data.message
+            };
+            throw customError;
+        }
     });
 
 export const fetchAuthMe = createAsyncThunk('/auth/fetchAuthMe',
     async () => {
-        const { data } = await axios.get('/auth/me');
-        return data;
+        try {
+            const { data } = await axios.get('/auth/me');
+            return data;
+        } catch (err) {
+            const authError = {
+                name: "Authentication error",
+                message: err.response.data.message
+            };
+            throw authError;
+        }
     });
 
 const initialState = {
     auth: {
         data: null,
         status: "loading"
-    },
+    }
 };
 
 const authSlice = createSlice({
@@ -69,9 +93,9 @@ const authSlice = createSlice({
                 state.data = action.payload;
                 state.status = 'loaded';
             })
-            .addCase(fetchRegister.rejected, (state) => {
-                state.data = null;
-                state.status = 'error';
+            .addCase(fetchRegister.rejected, (state, action) => {
+                state.status = 'rejected';
+                state.error = action;
             })
     }
 });
