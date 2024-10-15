@@ -15,3 +15,26 @@ but it contains fully implemented registration and login page for scaling purpos
 - `React markdown / Simple Editor` -makes post look nice and grammatically correct
 
 - `Axios` - for impelementing queries to backend
+
+## Video presentation
+
+SignUp
+
+
+https://github.com/user-attachments/assets/b9d4740e-3e4c-4aa3-9135-eed40ba0a25c
+
+LogIn
+
+
+https://github.com/user-attachments/assets/bedd6256-e618-4c42-99e2-5af897d38daa
+
+Post Creation
+
+
+
+https://github.com/user-attachments/assets/c7acae82-3f35-422e-b091-48f63544a75f
+
+
+
+
+
