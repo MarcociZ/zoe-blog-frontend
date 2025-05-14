@@ -8,9 +8,9 @@ but it contains fully implemented registration and login page for scaling purpos
 
 - `Redux Toolkit` - global state management is responsible for authorization imlementation, posts storage, tags etc.
 
-- `eact Hook Form` - for login and registration <form>
+- `React Hook Form` - for login and registration <form>
 
-- `eact Router v6` - is responsible for web navigation
+- `React Router v6` - is responsible for web navigation
 
 - `React markdown / Simple Editor` -makes post look nice and grammatically correct
 
